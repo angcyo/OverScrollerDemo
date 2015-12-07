@@ -58,14 +58,13 @@ public class CustomeScrollView extends FrameLayout {
             int scroll = scroller.getCurrY();
 
             scrollTo(0, scroll);
-            Log.e("2computeScroll:" + scroller.getCurrY(), "getScrollY:" + getScrollY());
+            Log.e("2computeScroll:" + scroll, "getScrollY:" + getScrollY());
 
             if (getScrollY() + getHeight() > height) {
                 scrollTo(0, height - getHeight());
             } else if (getScrollY() < 0) {
                 scrollTo(0, 0);
             }
-
 //            safeScroll(-scroller.getCurrY());
             postInvalidate();
         }
@@ -106,14 +105,19 @@ public class CustomeScrollView extends FrameLayout {
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                float velocityY) {
 //            scroller.fling(scroller.getCurrX(), scroller.getCurrY(), (int) velocityX, (int) velocityY, 0, 0, 100, 200);
-            Log.e("velocityY:", velocityY + "");
-            int scroll = (int) (Math.abs(velocityY) / 3);
+            Log.e("velocityY:" + velocityY, "height:" + (height - getHeight()));
+//            int scroll = (int) (Math.abs(velocityY) / 3);
             if (velocityY > 0) {//手势下滑
-                scroller.startScroll(0, getScrollY(), 0, -scroll, 500);
-            } else if (velocityY < 0) {//手势上滑
-                scroller.startScroll(0, getScrollY(), 0, scroll, 500);
-            }
+//                scroller.startScroll(0, getScrollY(), 0, -scroll, 500);
+//                scroller.fling(getScrollX(), getScrollY(), (int) velocityX, (int) velocityY, 0, 0, getScrollY(), 0, 0, 300);
+                scroller.fling(scroller.getCurrX(), scroller.getCurrY(), (int) velocityX, -(int) velocityY, 0, 0, scroller.getCurrY(), 0, 0, 300);
 
+            } else if (velocityY < 0) {//手势上滑
+//                scroller.startScroll(0, getScrollY(), 0, scroll, 500);
+//                scroller.fling(getScrollX(), getScrollY(), (int) velocityX, (int) velocityY, 0, 0, getScrollY(), height - getHeight(), 0, 300);
+//                scroller.fling(scroller.getCurrX(), scroller.getCurrY(), (int) velocityX, (int) velocityY, 0, 0, scroller.getCurrY(), height - getHeight(), 0, 300);
+                scroller.fling(scroller.getCurrX(), scroller.getCurrY(), (int) velocityX, -(int) velocityY, 0, 0, scroller.getCurrY(), height, 0, 300);
+            }
             invalidate();
             return true;
         }
